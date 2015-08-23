@@ -1,2 +1,2 @@
 # computerVision
-** Scripts for computer vision.
+* Scripts for computer vision.
