@@ -6,10 +6,10 @@
 * Edge Filter implemented by convolving image with the mask.
 
 ###EXAMPLE 
- ![Original Image ]( ../pictures/ajay.jpg "RGB Image")
+ ![Original Image ]( pictures/ajay.jpg "RGB Image")
 
 
- ![Edge detection ]( ../pictures/output.png "Edged detected")
+ ![Edge detection ]( pictures/output.png "Edged detected")
 
 ### Resources
 * [Edge Detection](http://blog.saush.com/2011/04/20/edge-detection-with-the-sobel-operator-in-ruby/) 
