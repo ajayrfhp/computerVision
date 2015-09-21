@@ -8,7 +8,7 @@ from scipy import ndimage
 
 
 
-img = color.rgb2gray(mpimg.imread('../pictures/ajay.jpg'))
+img = color.rgb2gray(mpimg.imread('../pictures/cycle.jpg'))
 
 mask = numpy.array([[-1,0,1],[-2,0,2],[-1,0,1]])
 
@@ -18,6 +18,7 @@ img2 = convolve(img,mask)
 
 plt.imshow(img2,cmap = plt.get_cmap('gray'))
 plt.show()
+savefig('depayout.png')
 
 
 
