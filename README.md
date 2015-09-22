@@ -9,15 +9,15 @@
  ![Original Image ]( pictures/ajay.jpg "RGB Image")
 
 
- ![Edge detection ]( pictures/ajayout.png "Edged detected")
+ ![Edge detection ]( pictures/ajaynew.png "Edge detected")
 
  ![Original Image ]( pictures/cycle.jpg "RGB Image")
 
- ![Edge detection ]( pictures/cyclenew.png "Edged detected")
+ ![Edge detection ]( pictures/cycleout.png "Edge detected")
 
  ![Original Image ]( pictures/depay.jpg "RGB Image")
 
- ![Edge detection ]( pictures/depayout.png "Edged detected")
+ ![Edge detection ]( pictures/depaynew.png "Edge detected")
 
 ### Resources
 * [Edge Detection](http://blog.saush.com/2011/04/20/edge-detection-with-the-sobel-operator-in-ruby/) 

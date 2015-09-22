@@ -8,7 +8,7 @@ from scipy import ndimage
 
 
 
-img = color.rgb2gray(mpimg.imread('../pictures/ajay.jpg'))
+img = color.rgb2gray(mpimg.imread('../pictures/cycle.jpg'))
 
 maskx = numpy.array([[-1,0,1],[-2,0,2],[-1,0,1]])
 masky = numpy.transpose(maskx)
