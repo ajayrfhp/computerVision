@@ -13,7 +13,7 @@
 
  ![Original Image ]( pictures/cycle.jpg "RGB Image")
 
- ![Edge detection ]( pictures/cycleout.png "Edged detected")
+ ![Edge detection ]( pictures/cyclenew.png "Edged detected")
 
  ![Original Image ]( pictures/depay.jpg "RGB Image")
 
