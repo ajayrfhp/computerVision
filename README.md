@@ -2,8 +2,9 @@
 ### Currently available scripts.
 * Contour
 * PCA
-* Convolution, can be extended to edge detection. (Sobel Filter)
+* Convolution, can be extended to edge detection. (Sobel Filter). Speed of convolution to be improved.
 * Edge Filter implemented by convolving image with the mask. To be extended for color edges.
+* To do : Parallelizing and optimizations
 ###EXAMPLE 
  ![Original Image ]( pictures/ajay.jpg "RGB Image")
 
