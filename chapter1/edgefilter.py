@@ -1,5 +1,7 @@
+from matplotlib.pyplot import show, plot
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+
 import numpy
 from numpy import *
 from skimage import color
@@ -9,13 +11,26 @@ import sys
 import Image
 import random
 from scipy import ndimage
+import copy
+import time
 
 method = sys.argv[1:][0]
 
 
 if(method == 'edgeDetect'):
 	print "Detecting edges"
-	img = color.rgb2gray(mpimg.imread('../pictures/cycle.jpg'))
+	img = mpimg.imread('../pictures/cycle.jpg')
+	#Conversion to greyscale
+	(m,n,o) = img.shape
+	newImg = numpy.zeros((m,n))
+	
+	for i in range(m):
+		for j in range(n):
+			newImg[i][j] = numpy.average(img[i][j])
+
+		
+	img = copy.copy(newImg)
+
 	maskx = numpy.array([[-1,0,1],[-2,0,2],[-1,0,1]])
 	masky = numpy.transpose(maskx)
 	img2 = convolve(img,maskx) 
@@ -26,6 +41,7 @@ if(method == 'edgeDetect'):
 	pickle.dump(finalImg,f)
 	f.close()
 	print "dumping data"
+	
 
 	plt.imshow(finalImg,cmap = plt.get_cmap('gray'))
 	plt.show()
@@ -60,42 +76,45 @@ elif(method == 'load'):
 
 
 elif(method == 'test'):
-	finalImg = mpimg.imread('../pictures/cycle.jpg')
+
 	f = open('data.pkl','rb')
-	convImg = pickle.load(f)
+	finalImg = pickle.load(f)
 	f.close()
 
 
-	plt.imshow(convImg,cmap = plt.get_cmap('gray'))
-	plt.show()
-	(m,n,o) = finalImg.shape
-	newImg = numpy.zeros((m,n))
-	
-	for i in range(m):
-		for j in range(n):
-			newImg[i][j] = numpy.average(finalImg[i][j])
 
-			
-	
-
-	im = Image.new('RGB',(m,n))
-
-	x = random.sample(range(1,m),50)
-	y = random.sample(range(1,n),50)
+	(m,n) = finalImg.shape
 
 
-	for i in range(50):
-		for j in range(20):
-			value = int(newImg[x[i]][y[j]])
-			#value = int(newImg[i][j])
-			im.putpixel((m-1-x[i],y[j]),(value,value,value))
 
-	im = ndimage.rotate(im,90)
+	xSample = 0
+	ySample = 0
 
 
-	plt.imshow(im)
-	plt.show()
 
+	while(xSample < m and ySample < n):
+		im = Image.new('RGB',(m,n))	
+		x = random.sample(range(1,m),xSample)
+		y = random.sample(range(1,n),ySample)
+
+		for i in range(xSample):
+			for j in range(ySample):
+				value = int(finalImg[x[i]][y[j]])
+				#value = int(newImg[i][j])
+				im.putpixel((m-1-x[i],y[j]),(value,value,value))
+
+		im = ndimage.rotate(im,90)
+		fig = plt.figure()
+		
+		plt.imshow(im,cmap = plt.get_cmap('gray'))
+		plt.show(block=False)
+		time.sleep(1)
+		plt.close()
+		xSample += 5
+		ySample += 5
+
+	plt.imshow(finalImg,cmap = plt.get_cmap('gray'))
+	plt.show()		
 
 
 
