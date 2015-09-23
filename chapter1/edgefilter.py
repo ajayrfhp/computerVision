@@ -75,13 +75,39 @@ elif(method == 'load'):
 	plt.show()
 
 
-elif(method == 'test'):
+
+elif(method == 'magic'):
+	print "Every great magic trick consists of three parts or acts.\n"
+	print "The first part is called The Pledge. The magician shows you something ordinary: a deck of cards, a bird or a man. He shows you this object. Perhaps he asks you to inspect it to see if it is indeed real, unaltered, normal\n"
+	print "The Pledge \n"
+	img = mpimg.imread('../pictures/cycle.jpg')
+	plt.imshow(img,cmap = plt.get_cmap('gray'))
+	plt.show()	
+
+	print "The second act is called The Turn. The magician takes the ordinary something and makes it do something extraordinary. Now you are looking for the secret. but you won't find it, because of course you are not really looking.\n"
+	print "The Turn \n"
+
+
 
 	f = open('data.pkl','rb')
 	finalImg = pickle.load(f)
 	f.close()
+	(m,n) = finalImg.shape
+	im = Image.new('RGB',(m,n))	
+	x = random.sample(range(1,m),15)
+	y = random.sample(range(1,n),15)
 
+	for i in range(15):
+		for j in range(15):
+			value = int(finalImg[x[i]][y[j]])
+			#value = int(newImg[i][j])
+			im.putpixel((m-1-x[i],y[j]),(value,value,value))
 
+	im = ndimage.rotate(im,90)
+	
+	
+	plt.imshow(im,cmap = plt.get_cmap('gray'))
+	plt.show()
 
 	(m,n) = finalImg.shape
 
@@ -91,7 +117,12 @@ elif(method == 'test'):
 	ySample = 0
 
 
-
+	plt.imshow(im,cmap = plt.get_cmap('gray'))
+	plt.show(block=False)
+	plt.clf()
+	print "You want to be fooled. But you wouldn't clap yet. Because making something disappear isn't enough; you have to bring it back. That's why every magic trick has a third act, the hardest part, the part we call\n"
+	print "The Prestige\n"
+	plt.ion()
 	while(xSample < m and ySample < n):
 		im = Image.new('RGB',(m,n))	
 		x = random.sample(range(1,m),xSample)
@@ -104,15 +135,18 @@ elif(method == 'test'):
 				im.putpixel((m-1-x[i],y[j]),(value,value,value))
 
 		im = ndimage.rotate(im,90)
-		fig = plt.figure()
 		
-		plt.imshow(im,cmap = plt.get_cmap('gray'))
-		plt.show(block=False)
-		time.sleep(1)
-		plt.close()
-		xSample += 5
-		ySample += 5
 
+		time.sleep(0.05)
+		plt.imshow(im,cmap = plt.get_cmap('gray'))
+	
+		plt.draw()
+		xSample += 10
+		ySample += 10
+
+
+
+	plt.ioff()
 	plt.imshow(finalImg,cmap = plt.get_cmap('gray'))
 	plt.show()		
 
