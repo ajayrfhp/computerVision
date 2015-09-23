@@ -1,7 +1,7 @@
 from matplotlib.pyplot import show, plot
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-
+import pyttsx
 import numpy
 from numpy import *
 from skimage import color
@@ -15,7 +15,9 @@ import copy
 import time
 
 method = sys.argv[1:][0]
-
+engine = pyttsx.init()
+rate = engine.getProperty('rate')
+engine.setProperty('rate', rate-50)
 
 if(method == 'edgeDetect'):
 	print "Detecting edges"
@@ -78,16 +80,29 @@ elif(method == 'load'):
 
 elif(method == 'magic'):
 	print "Every great magic trick consists of three parts or acts.\n"
+	#engine.say("Every great magic trick consists of three parts or acts")
 	print "The first part is called The Pledge. The magician shows you something ordinary: a deck of cards, a bird or a man. He shows you this object. Perhaps he asks you to inspect it to see if it is indeed real, unaltered, normal\n"
+	#engine.say("The first part is called The Pledge. The magician shows you something ordinary: a deck of cards, a bird or a man. He shows you this object. Perhaps he asks you to inspect it to see if it is indeed real, unaltered, normal")
 	print "The Pledge \n"
+	#engine.say("The Pledge.")
+	#engine.runAndWait()
+	
+
 	img = mpimg.imread('../pictures/cycle.jpg')
 	plt.imshow(img,cmap = plt.get_cmap('gray'))
 	plt.show()	
 
+
+
+
+
+	
+
 	print "The second act is called The Turn. The magician takes the ordinary something and makes it do something extraordinary. Now you are looking for the secret. but you won't find it, because of course you are not really looking.\n"
 	print "The Turn \n"
-
-
+	#engine.say("he second act is called The Turn. The magician takes the ordinary something and makes it do something extraordinary. Now you are looking for the secret. but you won't find it, because of course you are not really looking.")
+	#engine.say("The Turn. Close window to continue")
+#	engine.runAndWait()
 
 	f = open('data.pkl','rb')
 	finalImg = pickle.load(f)
@@ -120,6 +135,9 @@ elif(method == 'magic'):
 	plt.imshow(im,cmap = plt.get_cmap('gray'))
 	plt.show(block=False)
 	plt.clf()
+	#engine.say("You want to be fooled. But you wouldn't clap yet. Because making something disappear isn't enough; you have to bring it back. That's why every magic trick has a third act, the hardest part, the part we call")
+	#engine.say("The Prestige")
+	#engine.runAndWait()
 	print "You want to be fooled. But you wouldn't clap yet. Because making something disappear isn't enough; you have to bring it back. That's why every magic trick has a third act, the hardest part, the part we call\n"
 	print "The Prestige\n"
 	plt.ion()
