@@ -61,7 +61,13 @@ elif(method == 'load'):
 
 elif(method == 'test'):
 	finalImg = mpimg.imread('../pictures/cycle.jpg')
+	f = open('data.pkl','rb')
+	convImg = pickle.load(f)
+	f.close()
 
+
+	plt.imshow(convImg,cmap = plt.get_cmap('gray'))
+	plt.show()
 	(m,n,o) = finalImg.shape
 	newImg = numpy.zeros((m,n))
 	
@@ -72,16 +78,19 @@ elif(method == 'test'):
 			
 	
 
-	im = Image.new('RGB', (m,n))
+	im = Image.new('RGB',(m,n))
+
+	x = random.sample(range(1,m),50)
+	y = random.sample(range(1,n),50)
 
 
+	for i in range(50):
+		for j in range(20):
+			value = int(newImg[x[i]][y[j]])
+			#value = int(newImg[i][j])
+			im.putpixel((m-1-x[i],y[j]),(value,value,value))
 
-	for i in range(m):
-		for j in range(n):
-			x = int(newImg[i][j])
-			im.putpixel((i,j),(x,x,x))
-
-	im = ndimage.rotate(im,-90)
+	im = ndimage.rotate(im,90)
 
 
 	plt.imshow(im)
