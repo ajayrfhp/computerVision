@@ -21,7 +21,7 @@ engine.setProperty('rate', rate-50)
 
 if(method == 'edgeDetect'):
 	print "Detecting edges"
-	img = mpimg.imread('../pictures/cycle.jpg')
+	img = mpimg.imread('../pictures/yoda.jpg')
 	#Conversion to greyscale
 	(m,n,o) = img.shape
 	newImg = numpy.zeros((m,n))
