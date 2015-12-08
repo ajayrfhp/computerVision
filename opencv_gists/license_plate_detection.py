@@ -71,14 +71,23 @@ contours,heirachy = cv2.findContours(numbers,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX
 
 
 rects = [ cv2.boundingRect(c) for c in contours if cv2.contourArea(c) >= 10 ]
+
 #numbers_copy = cv2.GaussianBlur(numbers_copy,(3,3),0)
 rects.sort()
 for rect in rects:
 	x,y,w,h = rect
+
 	character = numbers_copy[y-2:y+h+2,x-2:x+w+2]
+
+	scale_x = 32.0/(w+4)
+	scale_y = 32.0/(h+4)
+
+	character = cv2.resize(character, (0,0), fx = 32.0/(w+4), fy= 32.0/(h+4))
+	
+
 	plt.imshow(character, cmap ='gray')
 	plt.show()
-
+	
 
 # Show keypoints
 
