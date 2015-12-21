@@ -18,23 +18,18 @@ small_kernel = np.zeros((h+2, w+2), np.uint8)
 
 
 img = cv2.morphologyEx(img,cv2.MORPH_TOPHAT,kernel)
-
 ret,img = cv2.threshold(img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-
 threshold_img = img.copy()
 
+
 ## inverted image
-
-
 
 cv2.floodFill(img,small_kernel,(0,0),255)
 img = cv2.bitwise_not(img)
 img = img | threshold_img
-
 img = cv2.morphologyEx(img,cv2.MORPH_OPEN,big_kernel)
 
-#plt.imshow(img, cmap ='gray')
-#plt.show()
+
 
 
 '''
@@ -56,15 +51,15 @@ length = 125
 height = 35
 numbers = org_img[centre_x - height/2:centre_x + height/2,centre_y - length/2:centre_y + length/2]
 
-#plt.imshow(numbers, cmap ='gray')
-#plt.show()
+plt.imshow(numbers, cmap ='gray')
+plt.show()
 
 
 ############################## character segmentation 
 
-numbers = cv2.dilate(numbers,np.ones((1,1)),iterations=1)
-numbers = cv2.bitwise_not(numbers)
 
+
+numbers = cv2.bitwise_not(numbers)
 ret,numbers = cv2.threshold(numbers,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 numbers_copy = numbers.copy()
 contours,heirachy = cv2.findContours(numbers,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -72,23 +67,32 @@ contours,heirachy = cv2.findContours(numbers,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX
 
 rects = [ cv2.boundingRect(c) for c in contours if cv2.contourArea(c) >= 10 ]
 
-#numbers_copy = cv2.GaussianBlur(numbers_copy,(3,3),0)
+	
 rects.sort()
+clf = joblib.load('../data/model.pkl')
+final_answer = ''
 for rect in rects:
 	x,y,w,h = rect
-
 	character = numbers_copy[y-2:y+h+2,x-2:x+w+2]
+	scale_x = 28.0/(w+4)
+	scale_y = 28.0/(h+4)
 
-	scale_x = 32.0/(w+4)
-	scale_y = 32.0/(h+4)
-
-	character = cv2.resize(character, (0,0), fx = 32.0/(w+4), fy= 32.0/(h+4))
+	character = cv2.equalizeHist(character)
+	character = cv2.resize(character, (0,0), fx = scale_x, fy= scale_y)
+	character = cv2.erode(character,np.ones((3,3)),iterations = 1)
+	
 	
 
+	values = character.flatten()
+	values = values.reshape(1,784)
+
+	answer = convert(clf.predict(values))
+	final_answer += str(answer)
+
+	
 	plt.imshow(character, cmap ='gray')
 	plt.show()
-	
-
+print final_answer
 # Show keypoints
 
 
