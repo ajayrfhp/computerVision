@@ -74,8 +74,8 @@ def disparity_map(left,right,window,thresh):
 	return dmp
 
 
-img_left = cv2.imread('../pictures/left.png')
-img_right = cv2.imread('../pictures/right.png')
+img_left = cv2.imread('../pictures/l.png')
+img_right = cv2.imread('../pictures/r.png')
 
 
 left = img_left.copy()
@@ -85,12 +85,12 @@ img_right = cv2.cvtColor(img_right,cv2.COLOR_BGR2GRAY)
 img_left = img_left 
 img_right = img_right
 
+stereo = cv2.StereoBM(1,16,11)
+disparity = stereo.compute(img_left,img_right)
+dmp = disparity_map(img_left,img_right,11,100) 
 
-dmp = disparity_map(img_left,img_right,20,50) 
-plt.imshow(img_left,cmap = 'gray')
-plt.show()
 
-plt.pcolor(dmp)
+plt.imshow(dmp,cmap = 'gray')
 plt.show()
 
 
