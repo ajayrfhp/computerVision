@@ -9,20 +9,38 @@ img = cv2.morphologyEx(img,cv2.MORPH_CLOSE,np.ones((2,2)))
 img = cv2.bitwise_not(img)
 img_bigline = np.zeros(img.shape) 
 
-
-detector = cv2.SimpleBlobDetector()
-
-#keypoints = detector.detect(img)
-#keypoints.sort(key = lambda x:x.size,reverse = True)
-#img = cv2.drawKeypoints(img, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-
-
-
-contours,hierachy = cv2.findContours(img.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
+contours,hierachy = cv2.findContours(img.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 contours.sort(key = lambda x:cv2.contourArea(x),reverse = True)
-cv2.drawContours(img_bigline,contours[0:10],-1,(255,255,255),3)
+
+img_old = img.copy()
+
+#cv2.drawContours(img,contours[1],-1,(255,255,255),15)
+a = np.array(contours[1])
+x_min,x_max =  a[0:,0,0].min(),a[0:,0,0].max()
+y_min,y_max =  a[0:,0,1].min(),a[0:,0,1].max()
+cv2.rectangle(img,(x_min,y_min),(x_max,y_max),(255,255,255),15)
 
 
 
-plt.imshow(img_bigline,cmap = 'gray')
+
+
+plt.imshow(img,cmap = 'gray')
 plt.show()
+
+'''
+
+for i in range(9):
+	
+	x,y,w,h = cv2.boundingRect(contours[i+1])
+	e =  0
+
+	sub_rect = contours[1]
+	#plt.imshow(sub_rect,cmap = 'gray')
+	#plt.show()
+
+#cv2.rectangle(img,(x,y),(x+w,y+h),(255,255,255),15)
+'''
+
+
+
+
