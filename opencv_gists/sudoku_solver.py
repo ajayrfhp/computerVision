@@ -12,21 +12,6 @@ img_bigline = np.zeros(img.shape)
 
 contours,hierachy = cv2.findContours(img.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
 contours.sort(key = lambda x:cv2.contourArea(x),reverse = True)
-'''
-rect = cv2.minAreaRect(contours[0])
-box = cv2.cv.BoxPoints(rect)
-box = np.int0(box)
-cv2.drawContours(img,[box],0,(255,255,255),2)
-
-c_x,c_y = rect[0]
-w,h = rect[1]
-
-s_x,s_y = (c_x - w/2,c_y - h/2)
-d_x,d_y = (c_x + w/2,c_x + h/2)
-e = 5
-#img = img[s_y-e:d_y+e,s_x-e:d_x+e]
-'''
-
 
 approx = cv2.approxPolyDP(contours[0],0.1*cv2.arcLength(contours[0],True),True)
 M = cv2.moments(contours[0])
@@ -51,60 +36,21 @@ for i in range(len(approx)):
 		c_x = this_x
 		c_y = this_y
 		best_y = this_y		 
-
-
 	if( this_y > best_d_y and this_x > centroid_x and this_y > centroid_y ):
 		d_x = this_x
 		d_y = this_y
 		best_y = this_y
 
-
-img_poly = np.zeros(img.shape)
-cv2.line(img_poly,(a_x,a_y),(b_x,b_y),(255,255,255),2)
-cv2.line(img_poly,(a_x,a_y),(c_x,c_y),(255,255,255),2)
-cv2.line(img_poly,(c_x,c_y),(d_x,d_y),(255,255,255),2)
-cv2.line(img_poly,(d_x,d_y),(b_x,b_y),(255,255,255),2)
-plt.imshow(img_poly,cmap = 'gray')
+edge_length = max(b_x -a_x,d_y-b_y,d_x-c_x,c_y-a_y)
+pts_initial = np.float32([[a_x,a_y],[b_x,b_y],[c_x,c_y],[d_x,d_y]])
+pts_final = np.float32([[0,0],[edge_length,0],[0,edge_length],[edge_length,edge_length]])
+transform_Matrix = cv2.getPerspectiveTransform(pts_initial,pts_final)
+img = cv2.warpPerspective(img,transform_Matrix,(edge_length,edge_length))
+plt.imshow(img,cmap = 'gray')
 plt.show()
 
 
 
-'''
-for j in range(0,1):
-	for i in range(0,1):
-		img_new = img.copy()
-		rect = cv2.minAreaRect(contours[j*3 + i + 1])
-		box = cv2.cv.BoxPoints(rect)
-		box = np.int0(box)
-		cv2.drawContours(img_new,[box],0,(255,255,255),-1)
-		img_diff = img_new - img
-		w,h = (d_x - s_x)/3,(d_y - s_y)/3
-		
-		img_diff = img_diff[(-15+s_y + (2-j)*h):(s_y + (2-j+1)*h),(-15+s_x + (2-i)*w):(s_x + (2-i+1)*w)]
-		img_diff = cv2.bitwise_not(img_diff)
-		contours,hierachy = cv2.findContours(img.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
-		contours.sort(key = lambda x:cv2.contourArea(x),reverse = True)
-		
-
-
-		img_diff = cv2.Canny(img_diff,50,150)
-		lines = cv2.HoughLinesP(img_diff,1,np.pi/180,10,50,10)
-		img_blah = np.zeros(img_diff.shape)
-
-		for x1,y1,x2,y2 in lines[0]:
-			cv2.line(img_blah,(x1,y1),(x2,y2),(255,255,255),2)
-
-		plt.imshow(img_blah,cmap = 'gray')
-		plt.show()
-
-		for i in range(3):
-			for j in range(3):
-				digit_r,digit_c = img_diff.shape[0]/3,img_diff.shape[1]/3,
-				digit = img_diff[i*digit_r:(i+1)*digit_r,j*digit_c:(j+1)*digit_c]
-'''
-
-				#plt.imshow(digit,cmap = 'gray')
-				#plt.show()	
 				
 	
 
