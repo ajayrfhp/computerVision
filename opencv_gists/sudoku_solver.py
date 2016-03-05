@@ -3,7 +3,6 @@ img = cv2.imread('../pictures/sudoku.jpg')
 img_color = img.copy()
 img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 img_color = cv2.cvtColor(img_color,cv2.COLOR_BGR2RGB)
-
 img = cv2.GaussianBlur(img,(7,7),0)
 img = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
 img = cv2.morphologyEx(img,cv2.MORPH_CLOSE,np.ones((2,2)))
@@ -12,7 +11,6 @@ img_bigline = np.zeros(img.shape)
 
 contours,hierachy = cv2.findContours(img.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
 contours.sort(key = lambda x:cv2.contourArea(x),reverse = True)
-
 approx = cv2.approxPolyDP(contours[0],0.1*cv2.arcLength(contours[0],True),True)
 M = cv2.moments(contours[0])
 centroid_x = int(M['m10']/M['m00'])
@@ -31,7 +29,6 @@ for i in range(len(approx)):
 		b_x = this_x
 		b_y = this_y
 		best_b_x = this_x
-
 	if( this_y < best_c_y and this_x < centroid_x and this_y > centroid_y ):
 		c_x = this_x
 		c_y = this_y
@@ -46,9 +43,39 @@ pts_initial = np.float32([[a_x,a_y],[b_x,b_y],[c_x,c_y],[d_x,d_y]])
 pts_final = np.float32([[0,0],[edge_length,0],[0,edge_length],[edge_length,edge_length]])
 transform_Matrix = cv2.getPerspectiveTransform(pts_initial,pts_final)
 img = cv2.warpPerspective(img,transform_Matrix,(edge_length,edge_length))
-plt.imshow(img,cmap = 'gray')
-plt.show()
+w,h = img.shape
 
+for i in range(1):
+	for j in range(1):
+		sub_img = img[0:w/3,0:h/3]
+		s_w,s_h = sub_img.shape
+		for l in range(3):
+			for k in range(3):
+				digit = sub_img[l*s_w/3:(l+1)*s_w/3,k*s_h/3:(k+1)*s_h/3]
+				d_w,d_h = digit.shape
+				f_tb,f_bb,f_lb,f_rb, = False,False,False,False
+				c_x,c_y = (d_w/2,d_h/2)
+				small_kernel = np.zeros((d_w+2, d_h+2), np.uint8)	
+				#cv2.floodFill(digit,small_kernel,(c_x,c_y),(255,255,255))
+				#Assuming c_x is going to be nearly c_y
+				tb,bb,lb,rb = c_x,c_y,c_x,c_y 
+				
+				'''
+				for m in range(c_x):
+					v_tb = np.sum(digit[c_x-m-1:c_x-m,:])
+					if( v_tb< 100 and f_tb == False):
+						tb = m 
+						f_tb = True
+
+				print tb
+				
+
+				plt.imshow(digit,cmap = 'gray')
+				plt.show()
+				'''
+				plt.imshow(digit,cmap = 'gray')
+				plt.show()
+				
 
 
 				
