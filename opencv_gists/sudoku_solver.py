@@ -51,6 +51,7 @@ for i in range(1):
 		s_w,s_h = sub_img.shape
 		for l in range(3):
 			for k in range(3):
+				
 				digit = sub_img[l*s_w/3:(l+1)*s_w/3,k*s_h/3:(k+1)*s_h/3]
 				d_w,d_h = digit.shape
 				f_tb,f_bb,f_lb,f_rb, = False,False,False,False
@@ -58,24 +59,30 @@ for i in range(1):
 				small_kernel = np.zeros((d_w+2, d_h+2), np.uint8)	
 				#cv2.floodFill(digit,small_kernel,(c_x,c_y),(255,255,255))
 				#Assuming c_x is going to be nearly c_y
+				contours,hierachy = cv2.findContours(img.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
+				contours.sort(key = lambda x:cv2.contourArea(x),reverse = True)
+				cv2.drawContours(digit,contours,0,(255,255,255),3)
+				for m in range(5):
+					for n in range(d_w-1):
+						
+						cv2.floodFill(digit,small_kernel,(m,n),0)
+						cv2.floodFill(digit,small_kernel,(n,m),0)
+						cv2.floodFill(digit,small_kernel,(m,d_w-2-n),0)
+						cv2.floodFill(digit,small_kernel,(d_w-2-n,m),0)
+
+
 				tb,bb,lb,rb = c_x,c_y,c_x,c_y 
-				
-				'''
-				for m in range(c_x):
-					v_tb = np.sum(digit[c_x-m-1:c_x-m,:])
-					if( v_tb< 100 and f_tb == False):
-						tb = m 
-						f_tb = True
-
-				print tb
-				
+				digit = cv2.erode(digit,np.ones((3,3)))
+				zeros = len(np.where(digit==0)[0])
+				if(float(zeros) / (d_w*d_h) >= 0.95 ):
+					print 'no digit'
+				else:
+					print 'digit'
 
 				plt.imshow(digit,cmap = 'gray')
 				plt.show()
-				'''
-				plt.imshow(digit,cmap = 'gray')
-				plt.show()
 				
+
 
 
 				
