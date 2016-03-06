@@ -14,7 +14,7 @@
 
  ![Original Image ]( pictures/depay.jpg "RGB Image")
  ![Edge detection ]( pictures/depaynew.png "Edge detected")
- * SUDOKU SOLVER
+ * Sudoku Solver
  ![Original Image for Sudoku Solver ]( pictures/sudoku.jpg "Input SUdoku")
  * Adaptive Thresholding 
  ![Threshold ]( output/threshold.png "After Thresholding")
