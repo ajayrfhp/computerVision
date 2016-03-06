@@ -44,14 +44,15 @@ pts_final = np.float32([[0,0],[edge_length,0],[0,edge_length],[edge_length,edge_
 transform_Matrix = cv2.getPerspectiveTransform(pts_initial,pts_final)
 img = cv2.warpPerspective(img,transform_Matrix,(edge_length,edge_length))
 w,h = img.shape
+answer = np.zeros((9,9))
 
 for i in range(1):
 	for j in range(1):
-		sub_img = img[0:w/3,0:h/3]
+		sub_img = img[w/3:2*w/3,h/3:2*h/3]
 		s_w,s_h = sub_img.shape
+		sub_answer = np.zeros((3,3))
 		for l in range(3):
 			for k in range(3):
-				
 				digit = sub_img[l*s_w/3:(l+1)*s_w/3,k*s_h/3:(k+1)*s_h/3]
 				d_w,d_h = digit.shape
 				f_tb,f_bb,f_lb,f_rb, = False,False,False,False
@@ -69,8 +70,6 @@ for i in range(1):
 						cv2.floodFill(digit,small_kernel,(n,m),0)
 						cv2.floodFill(digit,small_kernel,(m,d_w-2-n),0)
 						cv2.floodFill(digit,small_kernel,(d_w-2-n,m),0)
-
-
 				tb,bb,lb,rb = c_x,c_y,c_x,c_y 
 				digit = cv2.erode(digit,np.ones((3,3)))
 				zeros = len(np.where(digit==0)[0])
@@ -78,6 +77,7 @@ for i in range(1):
 					print 'no digit'
 				else:
 					print 'digit'
+
 
 				plt.imshow(digit,cmap = 'gray')
 				plt.show()
