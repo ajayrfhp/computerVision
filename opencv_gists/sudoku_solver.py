@@ -51,9 +51,9 @@ answer = np.zeros((3,3,3,3))
 clf = joblib.load('../data/svm_model.pkl')
 
 
-for i in range(1):
-	for j in range(1):
-		sub_img = img[w/3:2*w/3,h/3:2*h/3]
+for i in range(3):
+	for j in range(3):
+		sub_img = img[i*w/3:(i+1)*w/3,j*h/3:(j+1)*h/3]
 		s_w,s_h = sub_img.shape
 		sub_answer = np.zeros((3,3))
 
@@ -101,12 +101,9 @@ for i in range(1):
 					e = 5
 					digit = digit[lb-e:rb+e,tb-e:bb+e]
 					digit = scipy.misc.imresize(digit,(8,8))
-					plt.imshow(digit,cmap = 'gray')
-					plt.show()
 					sub_answer[l,k] = clf.predict(digit.flatten())
 
-				
-
+		answer[i,j] = sub_answer				
 
 
 				
