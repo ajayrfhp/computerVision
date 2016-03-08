@@ -100,10 +100,14 @@ for i in range(3):
 					print tb,bb,lb,rb			 
 					e = 5
 					digit = digit[lb-e:rb+e,tb-e:bb+e]
-					digit = scipy.misc.imresize(digit,(8,8))
-					sub_answer[l,k] = clf.predict(digit.flatten())
-
+					digit = scipy.misc.imresize(digit,(28,28))
+					digit = preprocessing.scale(digit)
+					sub_answer[l,k] = clf.predict(digit.flatten())	
+					print 	sub_answer[l,k]
+					plt.imshow(digit,cmap = 'gray')
+					plt.show()
 		answer[i,j] = sub_answer				
+	break
 
 
 				
