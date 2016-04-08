@@ -1,6 +1,7 @@
 # computerVision
 ### Currently available scripts.
 * Sudoku Solver
+* Harris Corner Detector
 * Irregular Shape Detection
 * Hough Transform
 * Prototype License Plate Detection
@@ -11,10 +12,7 @@
 
 
 ###EXAMPLE 
-
- ![Original Image ]( pictures/depay.jpg "RGB Image")
- ![Edge detection ]( pictures/depaynew.png "Edge detected")
- * Sudoku Solver
+* Sudoku Solver
 
  ![Original Image for Sudoku Solver ]( pictures/sudoku.jpg "Input SUdoku")
  * Adaptive Thresholding 
@@ -30,7 +28,16 @@
  * Eroded and Scaled
  ![Digit ]( output/digit.png "Digit")
 
+* Harris Corner Detector
+  
+ ![Original Image]( pictures/chess_board.png "Original ChessBoard")
+ ![Corners Detected]( output/simple_harris_corner.png "Corners Detected")
 
+* Edge Detection
+
+ ![Original Image ]( pictures/depay.jpg "RGB Image")
+ ![Edge detection ]( pictures/depaynew.png "Edge detected")
+ 
 
 
 
