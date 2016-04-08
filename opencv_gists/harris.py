@@ -12,7 +12,11 @@ def is_in_bounds(x,l,u):
 '''
 
 img = cv2.imread('../pictures/chess_board.png')
+img_color = img.copy()
+img_color = cv2.cvtColor(img,cv2.COLOR_BGR2RGB) 
 img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+
+
 epsilon = 10**(-4)
 img_x_derivative = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
 img_y_derivative = cv2.Sobel(img,cv2.CV_64F,0,1,ksize=5)
@@ -22,10 +26,16 @@ img_w_xy = scipy.ndimage.filters.gaussian_filter(img_x_derivative*img_y_derivati
 det_m = img_w_xx * img_w_yy - (img_w_xy)**2
 trace_m = img_w_xx + img_w_yy
 scores = det_m / (trace_m + epsilon)
-scores[scores>=scores.mean()] = 1
-scores[scores<scores.mean()] = 0
-plt.imshow(scores,cmap = 'gray')
+scores_mean = scores.mean()
+
+scores[scores>=scores_mean] = 1
+for i in range(scores.shape[0]):
+	for j in range(scores.shape[1]):
+		if(scores[i][j] == 1):
+			print i,j
+			cv2.circle(img_color,(i,j),4,(255,255,0))			
+
+
+plt.imshow(img_color)
 plt.show()
-
-
 
