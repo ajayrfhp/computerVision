@@ -31,7 +31,10 @@
 * Harris Corner Detector
   
  ![Original Image]( pictures/chess_board.png "Original ChessBoard")
+ * Simple Harris
  ![Corners Detected]( output/simple_harris_corner.png "Corners Detected")
+ * Improved Version
+ ![Improved Harris]( output/improved_harris.png "Corners Detected")
 
 * Edge Detection
 
