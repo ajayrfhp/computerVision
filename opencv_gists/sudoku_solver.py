@@ -10,7 +10,6 @@ img = cv2.bitwise_not(img)
 img_bigline = np.zeros(img.shape) 
 
 
-
 contours,hierachy = cv2.findContours(img.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
 contours.sort(key = lambda x:cv2.contourArea(x),reverse = True)
 
@@ -98,8 +97,8 @@ for i in range(3):
 							rb = c_y + o
 
 					print tb,bb,lb,rb			 
-					e = 5
-					digit = digit[lb-e:rb+e,tb-e:bb+e]
+					e = 10
+					#digit = digit[lb-e:rb+e,tb-e:bb+e]
 					digit = scipy.misc.imresize(digit,(28,28))
 					digit = preprocessing.scale(digit)
 					sub_answer[l,k] = clf.predict(digit.flatten())	

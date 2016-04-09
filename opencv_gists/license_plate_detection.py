@@ -22,12 +22,15 @@ ret,img = cv2.threshold(img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 threshold_img = img.copy()
 
 
+
 ## inverted image
 
 cv2.floodFill(img,small_kernel,(0,0),255)
 img = cv2.bitwise_not(img)
 img = img | threshold_img
 img = cv2.morphologyEx(img,cv2.MORPH_OPEN,big_kernel)
+
+
 
 
 
@@ -43,7 +46,8 @@ slope = float(d_x - xMin) / (yMax - yMin)
 theta = math.atan(slope)
 '''
 
-
+#plt.imshow(img,cmap = 'gray')
+#plt.show()
 
 centre_x = np.where(img==img.max())[0].mean()
 centre_y = np.where(img==img.max())[1].mean()
@@ -51,8 +55,6 @@ length = 125
 height = 35
 numbers = org_img[centre_x - height/2:centre_x + height/2,centre_y - length/2:centre_y + length/2]
 
-plt.imshow(numbers, cmap ='gray')
-plt.show()
 
 
 ############################## character segmentation 
@@ -62,10 +64,14 @@ plt.show()
 numbers = cv2.bitwise_not(numbers)
 ret,numbers = cv2.threshold(numbers,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 numbers_copy = numbers.copy()
+
+
 contours,heirachy = cv2.findContours(numbers,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 
 rects = [ cv2.boundingRect(c) for c in contours if cv2.contourArea(c) >= 10 ]
+cv2.drawContours(numbers_copy,[contours[0]],-1,(255,255,255),2)
+
 
 	
 rects.sort()
@@ -74,25 +80,23 @@ final_answer = ''
 for rect in rects:
 	x,y,w,h = rect
 	character = numbers_copy[y-2:y+h+2,x-2:x+w+2]
-	scale_x = 28.0/(w+4)
-	scale_y = 28.0/(h+4)
+	#scale_x = 27.0/(w+4)
+	#scale_y = 12.0/(h+4)
 
 	character = cv2.equalizeHist(character)
-	character = cv2.resize(character, (0,0), fx = scale_x, fy= scale_y)
-	character = cv2.erode(character,np.ones((3,3)),iterations = 1)
-	
-	
-
+	#character = cv2.Canny(cv2 blob detectioncharacter,100,200)
+	#character = cv2.resize(character, (0,0), fx = scale_x, fy= scale_y)
 	values = character.flatten()
-	values = values.reshape(1,784)
-
-	answer = convert(clf.predict(values))
-	final_answer += str(answer)
-
 	
+
+	#answer = convert(clf.predict(values))
+	#final_answer += str(answer)
+
+
 	plt.imshow(character, cmap ='gray')
 	plt.show()
-print final_answer
+	#print answer
+#print final_answer
 # Show keypoints
 
 

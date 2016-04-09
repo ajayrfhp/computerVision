@@ -20,13 +20,11 @@ for point in keypoints:
 	cv2.circle(img,(int(point.pt[0]),int(point.pt[1])),7,(255,255,255),-1)
 
 
+
+
+
 img = cv2.bitwise_not(img)
 ret,img = cv2.threshold(img.copy(),127,255,cv2.THRESH_BINARY)
-
-
-
-
-
 if(len(keypoints) != 48):
 	print 'error disfiguration'
 

@@ -50,25 +50,23 @@ def disparity_map(left,right,window,thresh):
 			right_row_slice = right[i*window:(i+1)*window,max(0,j*window-thresh):min(ci,j*window+thresh)]		
 		
 			x = template_match(right_row_slice,left_template)
+		
 			#corr = match_template(right_row_slice,left_template)
 			#x,y = np.unravel_index(np.argmax(corr), corr.shape)[::-1]
 			#print x,y
-
-
 			disparity = abs(j*window - x)
 			dmp[ri-1-(i*window),j*window] = disparity
-
-
+		
 			'''
 			for k in range(window):
 				for l in range(window):
 					dmp[ ri -1 - (i*window+k),j*window+l] = disparity
 			'''
-
-	dmp = gaussian_filter(dmp,sigma = 20)
+		
+	#dmp = gaussian_filter(dmp,sigma = 20)
 
 	dmp = np.transpose(dmp)
-	dmp = abs(dmp - dmp.max())
+	#dmp = abs(dmp - dmp.max())
 			
 				
 	return dmp
@@ -85,12 +83,12 @@ img_right = cv2.cvtColor(img_right,cv2.COLOR_BGR2GRAY)
 img_left = img_left 
 img_right = img_right
 
-stereo = cv2.StereoBM(1,16,11)
+stereo = cv2.StereoBM(1,16,31)
 disparity = stereo.compute(img_left,img_right)
-dmp = disparity_map(img_left,img_right,11,100) 
+dmp = disparity_map(img_left,img_right,9,50) 
 
 
-plt.imshow(dmp,cmap = 'gray')
+plt.imshow(disparity_map,cmap = 'gray')
 plt.show()
 
 

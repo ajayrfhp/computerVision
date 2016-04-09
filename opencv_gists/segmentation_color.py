@@ -9,7 +9,7 @@ img_thresholded =cv2.subtract(img_r,cv2.add(img_g,img_b))
 
 
 
-#ret,img_thresholded = cv2.threshold(img_thresholded,20,255,cv2.THRESH_BINARY)
+ret,img_thresholded = cv2.threshold(img_thresholded,20,255,cv2.THRESH_BINARY)
 
 plt.imshow(img_thresholded,cmap = 'gray')
 plt.show()
